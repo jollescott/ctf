@@ -1,0 +1,23 @@
+.base-container {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: [side] 20% [main] auto [end];
+    grid-template-rows: [nav] 10% [main] auto [end];
+}
+
+.navbar {
+    grid-column-start: side;
+    grid-column-end: end;
+    grid-row: nav;
+}
+
+.content {
+    grid-column: main;
+    grid-row: main;
+}
+
+.sidebar {
+    grid-column: side;
+    grid-row: main;
+}
