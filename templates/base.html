@@ -4,38 +4,11 @@
     <title>E-Sektionen CTF</title>
 
     {% load static %}
-    <link href="{% static 'ctf.css' %}" rel="stylesheet">
+    <link href="{% static 'shell.css' %}" rel="stylesheet">
 </head>
 
 <body>
-    <div class="base-container">
-        <div class="navbar">
-            <h1>E-sektionen CTF</h1>
-        </div>
-
-        <div class="sidebar">
-            <h2>Tasks</h2>
-            {% if module_tasks %}
-            {% for module, tasks in module_tasks.items %}
-            <details>
-                <summary>{{module.name}}</summary>
-
-                <ul>
-                    {%if tasks %}
-                    {% for task in tasks %}
-                    <li><a href="{{ task.url }}">{{ task.name }}</a></li>
-                    {% endfor %}
-                    {% endif %}
-                </ul>
-            </details>
-            {% endfor %}
-            {% endif %}
-        </div>
-
-        <div class="content">
-            {% block content %}{% endblock %}
-        </div>
-    </div>
+    {% block body %}{% endblock %}
 </body>
 
 </html>
