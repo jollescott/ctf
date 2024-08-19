@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator
 
+from .fields import TaskSecretField
+
 MAX_CLUE_COUNT = 10
 MAX_TASK_POINTS = 100
 
@@ -23,6 +25,8 @@ class Task(models.Model):
     )
     module = models.ForeignKey(TaskModule, on_delete=models.CASCADE)
     url = models.CharField(max_length=500)
+
+    secret = TaskSecretField()
 
     def __str__(self) -> str:
         return self.name
