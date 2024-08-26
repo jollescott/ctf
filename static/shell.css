@@ -8,7 +8,7 @@ body {
     width: auto;
     height: 100%;
     grid-template-columns: [side] 20% [main] auto [end];
-    grid-template-rows: [nav] 10% [main] auto [end];
+    grid-template-rows: [nav] 10% [main] auto [secret] min-content [end];
 }
 
 .navbar {
@@ -23,6 +23,11 @@ body {
 .content {
     grid-column: main;
     grid-row: main;
+}
+
+.secret {
+    grid-column: main;
+    grid-row: secret;
 }
 
 .sidebar {

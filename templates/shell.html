@@ -3,10 +3,12 @@
 {% block body %}
 <div class="base-container">
     <div class="navbar">
-        <a href="/"><h1>E-sektionen CTF</h1></a>
+        <a href="/">
+            <h1>E-sektionen CTF</h1>
+        </a>
 
         <div class="navbar-auth">
-            <p>Welcome, <b>{{user.username}}</b> <a href="/logout">(logout)</a></p> 
+            <p>Welcome, <b>{{user.username}}</b> <a href="/logout">(logout)</a></p>
         </div>
     </div>
 
@@ -19,8 +21,14 @@
 
             <ul>
                 {%if tasks %}
-                {% for task in tasks %}
+                {% for task, passed in tasks %}
+
+                {% if not passed %}
                 <li><a href="{{ task.url }}">{{ task.name }}</a></li>
+                {% else %}
+                <li><s>{{ task.name }}</s></li>
+                {% endif %}
+
                 {% endfor %}
                 {% endif %}
             </ul>
@@ -32,5 +40,17 @@
     <div class="content">
         {% block content %}{% endblock %}
     </div>
+
+    {% if task %}
+    <div class="secret">
+        {% if not task_attempt.passed %}
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ secret_form }}
+            <input type="submit" value="Check" />
+        </form>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

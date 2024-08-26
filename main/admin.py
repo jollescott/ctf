@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import TaskModule, Task
+from .models import TaskModule, Task, TaskAttempt
 
 # Register your models here.
 admin.site.register(TaskModule)
 admin.site.register(Task)
+admin.site.register(TaskAttempt)

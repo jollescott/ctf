@@ -3,10 +3,11 @@ from django.core.management.base import BaseCommand
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 from django.db.utils import IntegrityError
+from django.utils.text import slugify
 
 from main.models import TaskModule, Task
 from main.decorators import MODULE_TASKS
-from ._common import fetch_ctf_modules
+from main.common import fetch_ctf_modules
 
 
 class Command(BaseCommand):
@@ -31,13 +32,16 @@ class Command(BaseCommand):
             module_tasks = MODULE_TASKS[key]
 
             for module_task in module_tasks:
+                name = module_task[0]
+
                 task = Task()
-                task.name = module_task[1]
+                task.name = name
+                task.slug = module_task[1]
                 task.module = module
                 task.points = 10
                 
                 try:
-                    task.url = reverse(module_task[0].__name__)
+                    task.url = reverse(name)
                 except NoReverseMatch:
                     print("[ERROR] Mismatch between task view name and function name!")
                     continue

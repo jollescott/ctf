@@ -19,7 +19,9 @@ class TaskModule(models.Model):
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, null=False, unique=True)
+    slug = models.SlugField(max_length=500, null=False, unique=True)
+
     points = models.PositiveSmallIntegerField(
         validators=[MaxValueValidator(MAX_TASK_POINTS)]
     )
@@ -42,11 +44,14 @@ class TaskClue(models.Model):
 
 class TaskAttempt(models.Model):
     clue_count = models.PositiveSmallIntegerField(
-        validators=[MaxValueValidator(MAX_CLUE_COUNT)]
+        validators=[MaxValueValidator(MAX_CLUE_COUNT)], default=0
     )
     points = models.PositiveSmallIntegerField(
         validators=[MaxValueValidator(MAX_TASK_POINTS)]
     )
-    passed = models.BooleanField()
+    passed = models.BooleanField(default=False)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.user.username}'s attempt on task '{self.task.name}'"

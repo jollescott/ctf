@@ -15,11 +15,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from importlib import import_module
+
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path("", include("main.urls")),
-    path("mod_test", include("mod_test.urls")),
     path("admin/", admin.site.urls),
 ]
+
+# Import and register all task views in installed CTF modules.
+from main.common import fetch_ctf_modules
+
+ctf_modules = fetch_ctf_modules()
+
+for ctf_module in ctf_modules:
+    import_module(f"{ctf_module.module.__name__}.views")
+
+# Import MODULE_TASKS after being populated by the previous section imports.
+from main.decorators import MODULE_TASKS
+
+for module, tasks in MODULE_TASKS.items():
+    for task in tasks:
+        urlpatterns.append(path(f"{module}/{task[1]}", view=task[2], name=task[0]))
