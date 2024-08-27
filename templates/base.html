@@ -5,6 +5,9 @@
 
     {% load static %}
     <link href="{% static 'shell.css' %}" rel="stylesheet">
+    {% if task %}
+    <script src="{% static 'task.js' %}" defer data-task-id="{{ task.id }}"></script>
+    {% endif %}
 </head>
 
 <body>
