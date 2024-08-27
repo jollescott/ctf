@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'mod_test.apps.ModTestConfig',
     'main.apps.MainConfig',
     'django.contrib.admin',
@@ -71,6 +72,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ctf.wsgi.application'
+
+ASGI_APPLICATION = 'ctf.asgi.application'
 
 
 # Database
