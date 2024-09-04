@@ -18,7 +18,8 @@ class Command(BaseCommand):
 
         for mod in mods:
             module = TaskModule()
-            module.name = mod.display_name
+            module.name = mod.name
+            module.title = mod.display_name
 
             try:
                 module.save()
@@ -39,7 +40,7 @@ class Command(BaseCommand):
                 task.slug = module_task[1]
                 task.module = module
                 task.points = 10
-                
+
                 try:
                     task.url = reverse(name)
                 except NoReverseMatch:
