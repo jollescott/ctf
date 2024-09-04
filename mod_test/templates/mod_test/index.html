@@ -1,5 +1,35 @@
 {% extends "shell.html" %}
 
 {% block content %}
-<p>The secret is: {{task.secret}}</p>
+
+<div id="terminal" style="background-color: grey; width: 50%; height: 50%; color: greenyellow; overflow: scroll;">
+    <form id="terminalInputForm" action="javascript:handleInput()">
+        <input id="terminalInputField" style="width: 100%; background: transparent;" type="text" />
+        <input type="submit" hidden />
+    </form>
+</div>
+
+<script defer>
+    const terminal = new Terminal("{{ task.id }}");
+    const terminalWindow = document.getElementById("terminal");
+    const terminalInputForm = document.getElementById("terminalInputForm");
+    const terminalInputField = document.getElementById("terminalInputField");
+
+    function appendLine(line, user = false) {
+        const lineElement = document.createElement("p");
+        lineElement.innerText = (user ? "({{user.username}}) " : "(MCP) ") + line;
+
+        terminalWindow.insertBefore(lineElement, terminalInputForm);
+    }
+
+    function handleInput() {
+        const input = terminalInputField.value;
+        terminalInputField.value = "";
+
+        appendLine(input, true);
+    }
+
+    setTimeout(() => appendLine("Connection established. Welcome user, {{user.username}}."), 1000);
+</script>
+
 {% endblock %}

@@ -5,6 +5,10 @@
 
     {% load static %}
     <link href="{% static 'shell.css' %}" rel="stylesheet">
+
+    {% if task %}
+    <script src="{% static 'js/ws/terminal.js' %}"></script>
+    {% endif %}
 </head>
 
 <body>
