@@ -3,7 +3,7 @@ import subprocess
 from typing import Any
 from django.core.management.base import BaseCommand
 
-from ._common import fetch_ctf_modules
+from main.common import fetch_ctf_modules
 
 
 class Command(BaseCommand):
