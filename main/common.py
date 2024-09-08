@@ -21,16 +21,21 @@ def fetch_ctf_modules(additional_flag=None):
     return mods
 
 
-def get_base_context(request):
-    tasks = Task.objects.all()
-
+def get_base_context(request, include_tasks=True):
     user = request.user
-    attempts = TaskAttempt.objects.filter(user=user)
+    context = {"user": request.user}
 
-    passed_tasks = [a.task.id for a in attempts if a.passed]
-    module_tasks = dict(map(lambda t: (t.module, [(t, t.id in passed_tasks)]), tasks))
+    if include_tasks:
+        tasks = Task.objects.all()
+        attempts = TaskAttempt.objects.filter(user=user)
 
-    context = {"module_tasks": module_tasks, "user": request.user}
+        passed_tasks = [a.task.id for a in attempts if a.passed]
+        module_tasks = dict(
+            map(lambda t: (t.module, [(t, t.id in passed_tasks)]), tasks)
+        )
+
+        context["module_tasks"] = module_tasks
+
     return context
 
 
