@@ -22,8 +22,13 @@ def enter(request: HttpRequest):
         form = EnterForm(request.POST)
 
         if form.is_valid():
-            user = User.objects.create_user(form.cleaned_data["username"])
-            user.save()
+            username = form.cleaned_data["username"]
+
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                user = User.objects.create_user(form.cleaned_data["username"])
+                user.save()
 
             login(request, user)
 
