@@ -7,17 +7,23 @@ body {
     display: grid;
     width: auto;
     height: 100%;
-    grid-template-columns: [side] 20% [main] auto [end];
-    grid-template-rows: [nav] 10% [main] auto [secret] min-content [end];
+    grid-template-columns: [side] 15% [main] auto [end];
+    grid-template-rows: [nav] min-content [main] auto [secret] min-content [end];
 }
 
-.navbar {
+.ctf-navbar {
     grid-column-start: side;
     grid-column-end: end;
     grid-row: nav;
+}
 
-    display: flex;
-    justify-content: space-between;
+.ctf-navbar-left {
+    display: flexbox;
+    align-items: center;
+}
+
+.ctf-navbar-welcome {
+    margin-right: 10px;
 }
 
 .content {
@@ -30,9 +36,16 @@ body {
     grid-row: secret;
 }
 
+form {
+    display: flex;
+}
+
 .sidebar {
     grid-column: side;
-    grid-row: main;
+    grid-row-start: main;
+    grid-row-end: end;
+
+    padding-top: 5%;
 }
 
 .enter-form-container {

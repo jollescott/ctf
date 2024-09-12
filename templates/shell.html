@@ -2,42 +2,75 @@
 
 {% block body %}
 <div class="base-container">
-    <div class="navbar">
-        <a href="/">
-            <h1>E-sektionen CTF</h1>
-        </a>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary ctf-navbar shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                E-sektionen CTF
+            </a>
 
-        <div class="navbar-auth">
-            <p>Welcome, <b>{{user.username}}</b> <a href="/logout">(logout)</a></p>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'tasks' in request.path %}active{% endif %}" aria-current="page"
+                            href="{% url 'tasks' %}">Tasks</a>
+                    </li>
+                    {% url 'leaderboard' as url %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == url %}active{% endif %}"
+                            href="{% url 'leaderboard' %}">Leaderboard</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="d-flex ctf-navbar-left">
+                <span class="ctf-navbar-welcome">Welcome, <b>{{user.username}}!</b></span><a
+                    class=" btn btn-outline-danger" href="/logout">Logout</a>
+            </div>
         </div>
-    </div>
+    </nav>
 
-    <div class="sidebar">
+    {% if module_tasks %}
+    <div class="sidebar bg-body-secondary container">
         <h2>Tasks</h2>
-        {% if module_tasks %}
         {% for module, tasks in module_tasks.items %}
-        <details>
-            <summary>{{module.name}}</summary>
+        <div class="accordion shadow-sm" id="taskAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse-{{module.name}}" aria-expanded="true"
+                        aria-controls="collapse-{{module.name}}">
+                        {{module.name}}
+                    </button>
+                </h2>
 
-            <ul>
-                {%if tasks %}
-                {% for task, passed in tasks %}
+                <div id="collapse-{{module.name}}" class="accordion-collapse collapse" data-bs-parent="#taskAccordion">
+                    <div class="accordion-body">
+                        {%if tasks %}
+                        {% for task, passed in tasks %}
 
-                {% if not passed %}
-                <li><a href="{{ task.url }}">{{ task.name }}</a></li>
-                {% else %}
-                <li><s>{{ task.name }}</s></li>
-                {% endif %}
+                        {% if not passed %}
+                        <a class="btn btn-primary" href="{{ task.url }}">{{ task.name }}</a>
+                        {% else %}
+                        <a class="btn btn-success" href="{{ task.url }}">{{ task.name }}</a>
+                        {% endif %}
 
-                {% endfor %}
-                {% endif %}
-            </ul>
-        </details>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
         {% endfor %}
-        {% endif %}
     </div>
+    {% endif %}
 
-    <div class="content">
+    <div class="content bg-body-primary container-fluid">
         {% block content %}{% endblock %}
     </div>
 
@@ -47,7 +80,7 @@
         <form action="" method="post">
             {% csrf_token %}
             {{ secret_form }}
-            <input type="submit" value="Check" />
+            <input type="submit" class="btn btn-primary" value="Check" />
         </form>
         {% endif %}
     </div>

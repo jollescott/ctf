@@ -9,12 +9,21 @@ from .forms import EnterForm
 
 # Create your views here.
 def index(request: HttpRequest):
+    return redirect("tasks")
+
+
+def tasks(request: HttpRequest):
     context = get_base_context(request)
 
     if request.user.is_authenticated:
         return render(request, "main/index.html", context)
     else:
         return redirect("enter")
+
+
+def leaderboard(request: HttpRequest):
+    context = get_base_context(request, False)
+    return render(request, "main/leaderboard.html", context)
 
 
 def enter(request: HttpRequest):
