@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block css %}
+{{ block.super }}
+{% load static %}
+<link href="{% static 'shell.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
 <div class="base-container">
     <nav class="navbar navbar-expand-lg bg-body-tertiary ctf-navbar shadow-sm">

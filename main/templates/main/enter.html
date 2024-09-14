@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 
+{% block css %}
+{{ block.super }}
+{% load static %}
+<link href="{% static 'main/enter.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
 
 <div class="enter-form-container">
-    <form action="/enter" method="post"> 
+    <form action="/enter" method="post">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" value="Enter"/>
+        <input type="submit" value="Enter" />
     </form>
 </div>
 
