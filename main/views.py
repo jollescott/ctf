@@ -1,4 +1,4 @@
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout as logout_user
@@ -38,6 +38,9 @@ def enter(request: HttpRequest):
             except User.DoesNotExist:
                 user = User.objects.create_user(form.cleaned_data["username"])
                 user.save()
+
+            if user.has_usable_password():
+                return HttpResponseForbidden()
 
             login(request, user)
 
