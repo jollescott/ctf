@@ -12,10 +12,11 @@ MAX_TASK_POINTS = 100
 class TaskModule(models.Model):
     """A grouping of tasks with a common theme or technique."""
 
-    name = models.CharField(max_length=500, unique=True)
+    name = models.CharField(max_length=500, unique=True, null=False)
+    title = models.CharField(max_length=500)
 
     def __str__(self) -> str:
-        return self.name
+        return self.name + f" ({self.title})"
 
 
 class Task(models.Model):

@@ -1,0 +1,9 @@
+#terminal {
+    background-color: grey;
+    width: 50%;
+    height: 50%;
+    color: greenyellow;
+    overflow: scroll;
+    border-radius: 10px;
+    padding: 0.5%;
+}

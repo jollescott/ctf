@@ -1,0 +1,32 @@
+<div id="terminal" class="shadow-sm">
+
+    <form id="terminalInputForm" action="javascript:handleInput()">
+        <input id="terminalInputField" style="width: 100%; background: transparent;" type="text" />
+        <input type="submit" hidden />
+    </form>
+
+</div>
+
+<script defer>
+    const terminal = new Terminal("{{task.id}}", "{{program}}");
+    terminal.addResponseListener((d) => appendLine(d, false));
+
+    const terminalWindow = document.getElementById("terminal");
+    const terminalInputForm = document.getElementById("terminalInputForm");
+    const terminalInputField = document.getElementById("terminalInputField");
+
+    function appendLine(line, user = false) {
+        const lineElement = document.createElement("p");
+        lineElement.innerText = (user ? "({{user.username}}) " : "(MCP) ") + line;
+
+        terminalWindow.insertBefore(lineElement, terminalInputForm);
+    }
+
+    function handleInput() {
+        const input = terminalInputField.value;
+        terminalInputField.value = "";
+
+        appendLine(input, true);
+        terminal.send(input);
+    }
+</script>

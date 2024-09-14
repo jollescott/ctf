@@ -1,5 +1,8 @@
-{% extends "shell.html" %}
+{% extends "main/task.html" %}
 
 {% block content %}
-<p>The secret is: {{task.secret}}</p>
+
+{% load terminal %}
+{% terminal task user "test_program" %}
+
 {% endblock %}
