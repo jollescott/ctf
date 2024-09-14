@@ -31,6 +31,9 @@ body {
     grid-row: main;
 
     padding-top: 1%;
+
+    display: flex;
+    justify-content: center;
 }
 
 .secret {
